@@ -1,0 +1,162 @@
+/* --- VARIABLES DE COULEURS --- */
+:root {
+    --primary-color: #0f766e; /* Vert émeraude profond */
+    --primary-light: #f0fdfa; /* Fond vert très clair */
+    --accent-color: #f59e0b; /* Ambre (pour le favori ⭐) */
+    --bg-color: #f0f4f8; /* Gris-bleu très doux */
+    --text-arabic: #111827;
+}
+
+/* --- BASES & MISE EN PAGE --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 30px 10px; /* Padding adapté pour mobile */
+}
+
+/* --- EN-TÊTE --- */
+.app-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.app-logo {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 26px;
+    color: var(--primary-color);
+}
+
+.app-subtitle {
+    font-size: 14px;
+    color: #64748b;
+}
+
+/* --- CONTENEUR --- */
+.app-container {
+    background: white;
+    padding: 35px 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    width: 100%;
+    max-width: 700px;
+}
+
+/* --- CONTRÔLES --- */
+.controls-section {
+    background-color: var(--primary-light);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #cceee9;
+    margin-bottom: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.control-group {
+    flex: 1 1 200px;
+}
+
+.control-group label {
+    display: block;
+    font-size: 15px; /* Augmenté de 13px à 15px */
+    font-weight: 600; /* Ajoute un peu de gras pour la lisibilité */
+    color: #475569; /* Rendu légèrement plus foncé */
+    margin-bottom: 8px; /* Un peu plus d'espace */
+}
+
+.surah-select {
+    width: 100%;
+    padding: 12px 10px; /* Légèrement plus haut pour les gros doigts (12px au lieu de 10px) */
+    font-size: 16px; /* Augmenté à 16px (la taille standard recommandée sur mobile) */
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    cursor: pointer;
+    font-family: inherit; /* Force le menu à utiliser notre belle police 'Inter' */
+}
+
+.reciter-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.fav-btn {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    background-color: white;
+}
+
+/* --- PAGE DU CORAN (Lisibilité maximale) --- */
+.quran-page {
+    background-color: #fdfbf7;
+    border: 1px solid #e0dcd3;
+    min-height: 120px;
+    padding: 25px;
+    margin: 25px 0;
+    border-radius: 12px;
+    font-size: 30px; /* Grand texte */
+    line-height: 2.2;
+    color: var(--text-arabic);
+    font-family: 'Segoe UI', Arial, sans-serif; /* Police standard et lisible */
+    text-align: justify;
+    text-align-last: center; 
+}
+
+/* --- OPTIONS & BOUTONS --- */
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+button.option-btn {
+    background-color: white;
+    border: 2px solid #e2e8f0;
+    color: var(--text-arabic);
+    padding: 18px 20px;
+    font-size: 24px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Segoe UI', Arial, sans-serif; /* Police standard */
+    min-height: 60px;
+    line-height: 1.5;
+}
+
+button.option-btn:hover {
+    border-color: var(--primary-color);
+    background-color: var(--primary-light);
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 600px) {
+    .app-container {
+        padding: 20px;
+    }
+    
+    .quran-page {
+        font-size: 24px;
+        padding: 15px;
+    }
+
+    button.option-btn {
+        font-size: 20px;
+    }
+}

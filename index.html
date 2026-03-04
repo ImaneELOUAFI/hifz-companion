@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hifz Companion - Révision Coran</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <img src="logo_HC1.png" alt="Logo Hifz Companion" class="app-logo">
+            <h1>Hifz Companion</h1>
+            <p class="app-subtitle">Ton partenaire pour la mémorisation</p>
+        </header>
+        
+        <div class="controls-section">
+            <div class="control-group">
+                <label for="surah-select">Sourate</label>
+                <select id="surah-select" class="surah-select">
+                    <option value="">Chargement...</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="reciter-select">Récitateur</label>
+                <div class="reciter-controls">
+                    <select id="reciter-select" class="surah-select">
+                        <option value="">Chargement...</option>
+                    </select>
+                    <button id="fav-btn" class="fav-btn" title="Gérer les favoris">⭐</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="quran-page" class="quran-page" dir="rtl">
+            </div>
+
+        <div class="quiz-section">
+            <h2 id="instruction">Chargement des versets...</h2>
+            
+            <div id="options-container" class="options-container" dir="rtl">
+                </div>
+            
+            <p id="feedback-message"></p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
