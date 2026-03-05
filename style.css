@@ -1,18 +1,14 @@
 /* --- VARIABLES DE COULEURS --- */
 :root {
-    --primary-color: #0f766e; /* Vert émeraude profond */
-    --primary-light: #f0fdfa; /* Fond vert très clair */
-    --accent-color: #f59e0b; /* Ambre (pour le favori ⭐) */
-    --bg-color: #f0f4f8; /* Gris-bleu très doux */
+    --primary-color: #0f766e; 
+    --primary-hover: #115e59;
+    --primary-light: #f0fdfa; 
+    --bg-color: #f0f4f8; 
     --text-arabic: #111827;
 }
 
-/* --- BASES & MISE EN PAGE --- */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
     font-family: 'Inter', sans-serif;
@@ -20,34 +16,15 @@ body {
     display: flex;
     justify-content: center;
     min-height: 100vh;
-    padding: 30px 10px; /* Padding adapté pour mobile */
+    padding: 30px 10px; 
 }
 
-/* --- EN-TÊTE --- */
-.app-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
+/* --- EN-TÊTE & CONTENEUR --- */
+.app-header { text-align: center; margin-bottom: 25px; }
+.app-logo { width: 90px; height: 90px; margin-bottom: 10px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+h1 { font-size: 26px; color: var(--primary-color); }
+.app-subtitle { font-size: 14px; color: #64748b; }
 
-.app-logo {
-    width: 90px;
-    height: 90px;
-    margin-bottom: 10px;
-    border-radius: 50%;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-h1 {
-    font-size: 26px;
-    color: var(--primary-color);
-}
-
-.app-subtitle {
-    font-size: 14px;
-    color: #64748b;
-}
-
-/* --- CONTENEUR --- */
 .app-container {
     background: white;
     padding: 35px 25px;
@@ -57,106 +34,530 @@ h1 {
     max-width: 700px;
 }
 
-/* --- CONTRÔLES --- */
+/* --- CONTRÔLES (ACCUEIL) --- */
 .controls-section {
     background-color: var(--primary-light);
     padding: 20px;
     border-radius: 12px;
     border: 1px solid #cceee9;
-    margin-bottom: 25px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
 }
-
-.control-group {
-    flex: 1 1 200px;
-}
+.flex-col { display: flex; flex-direction: column; gap: 15px; }
 
 .control-group label {
-    display: block;
-    font-size: 15px; /* Augmenté de 13px à 15px */
-    font-weight: 600; /* Ajoute un peu de gras pour la lisibilité */
-    color: #475569; /* Rendu légèrement plus foncé */
-    margin-bottom: 8px; /* Un peu plus d'espace */
+    display: block; font-size: 15px; font-weight: 600; color: #475569; margin-bottom: 8px;
 }
 
 .surah-select {
-    width: 100%;
-    padding: 12px 10px; /* Légèrement plus haut pour les gros doigts (12px au lieu de 10px) */
-    font-size: 16px; /* Augmenté à 16px (la taille standard recommandée sur mobile) */
-    border-radius: 8px;
-    border: 1px solid #cbd5e1;
-    cursor: pointer;
-    font-family: inherit; /* Force le menu à utiliser notre belle police 'Inter' */
+    width: 100%; padding: 12px 10px; font-size: 16px; border-radius: 8px;
+    border: 1px solid #cbd5e1; cursor: pointer; font-family: inherit;
+}
+.reciter-controls { display: flex; gap: 10px; }
+.fav-btn { padding: 10px 15px; border-radius: 8px; border: 1px solid #cbd5e1; background-color: white; }
+
+.fav-btn { padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-container); color: var(--text-main); transition: 0.3s; }
+
+/* [NOUVEAU] Style quand le bouton est actif */
+.fav-btn.is-favorite {
+    background-color: var(--fav-active-bg);
+    border-color: var(--fav-active-border);
+    color: var(--fav-active-text);
 }
 
-.reciter-controls {
-    display: flex;
-    gap: 10px;
+/* BOUTON MÉMORISER */
+.start-btn {
+    width: 100%; margin-top: 10px; background-color: var(--primary-color); color: white;
+    font-size: 18px; font-weight: 600; padding: 15px; border: none; border-radius: 12px;
+    cursor: pointer; box-shadow: 0 4px 10px rgba(15, 118, 110, 0.3); transition: all 0.2s;
 }
+.start-btn:hover { background-color: var(--primary-hover); transform: translateY(-2px); }
 
-.fav-btn {
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: 1px solid #cbd5e1;
-    background-color: white;
+/* SIGNATURE FOOTER */
+.app-footer { margin-top: 25px; font-size: 14px; color: #94a3b8; text-align: center; }
+.app-footer strong { color: var(--primary-color); }
+
+/* --- ÉCRAN QUIZ --- */
+.quiz-header { display: flex; align-items: center; margin-bottom: 20px; gap: 15px; }
+.back-btn {
+    background-color: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 15px;
+    border-radius: 8px; cursor: pointer; font-weight: 600; color: #475569; transition: 0.2s;
 }
+.back-btn:hover { background-color: #e2e8f0; }
+.quiz-title { color: var(--primary-color); font-size: 20px; margin: 0; }
 
-/* --- PAGE DU CORAN (Lisibilité maximale) --- */
 .quran-page {
-    background-color: #fdfbf7;
-    border: 1px solid #e0dcd3;
-    min-height: 120px;
-    padding: 25px;
-    margin: 25px 0;
-    border-radius: 12px;
-    font-size: 30px; /* Grand texte */
-    line-height: 2.2;
-    color: var(--text-arabic);
-    font-family: 'Segoe UI', Arial, sans-serif; /* Police standard et lisible */
-    text-align: justify;
-    text-align-last: center; 
+    background-color: #fdfbf7; border: 1px solid #e0dcd3; min-height: 120px;
+    padding: 25px; margin-bottom: 25px; border-radius: 12px; font-size: 30px; 
+    line-height: 2.2; color: var(--text-arabic); font-family: 'Segoe UI', Arial, sans-serif; 
+    text-align: justify; text-align-last: center; 
 }
 
-/* --- OPTIONS & BOUTONS --- */
-.options-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
+.options-container { display: flex; flex-direction: column; gap: 12px; }
 button.option-btn {
-    background-color: white;
-    border: 2px solid #e2e8f0;
-    color: var(--text-arabic);
-    padding: 18px 20px;
-    font-size: 24px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: 'Segoe UI', Arial, sans-serif; /* Police standard */
-    min-height: 60px;
-    line-height: 1.5;
+    background-color: white; border: 2px solid #e2e8f0; color: var(--text-arabic);
+    padding: 18px 20px; font-size: 24px; border-radius: 12px; cursor: pointer;
+    transition: all 0.2s; font-family: 'Segoe UI', Arial, sans-serif; min-height: 60px; line-height: 1.5;
 }
+button.option-btn:hover { border-color: var(--primary-color); background-color: var(--primary-light); }
+#instruction, #feedback-message { font-size: 18px; font-weight: 600; color: #475569; margin-bottom: 20px; }
 
-button.option-btn:hover {
-    border-color: var(--primary-color);
-    background-color: var(--primary-light);
-}
-
-/* --- RESPONSIVE MOBILE --- */
 @media (max-width: 600px) {
-    .app-container {
-        padding: 20px;
-    }
-    
-    .quran-page {
-        font-size: 24px;
-        padding: 15px;
-    }
-
-    button.option-btn {
-        font-size: 20px;
-    }
+    .app-container { padding: 20px; }
+    .quran-page { font-size: 24px; padding: 15px; }
+    button.option-btn { font-size: 20px; }
 }
+
+/* --- [NOUVEAU] COULEURS DU TAJWID --- */
+/* --- COULEURS DU TAJWID (Standard Dar Al-Maarifa) --- */
+
+/* ⚪ Gris : Les lettres muettes (ne se prononcent pas) */
+tajweed.ham_wasl, tajweed.slnt, tajweed.laam_shamsiyah { 
+    color: #a1a1aa; 
+} 
+
+/* 🔴 Rouge / Orange / Rose : L'allongement (Madd de 2 à 6 temps) */
+tajweed.madda_necessary, tajweed.madda_obligatory { color: #950d92; } /* Rouge fort (6 temps) */
+tajweed.madda_permissible { color: #f97316; } /* Rose foncé (4-5 temps) */
+tajweed.madda_normal { color: #d68d58; } /* Orange (2 temps) */
+
+/* 🟢 Vert : La nasalisation (Ghunnah, Ikhfa, Idgham avec Ghunnah, Iqlab) */
+tajweed.ghn, tajweed.ikhf, tajweed.ikhf_shfw, tajweed.idgh_ghn, tajweed.idgh_w_ghn, tajweed.iqlb { 
+    color: #16a34a; 
+} 
+
+/* 🔵 Bleu clair : Le rebondissement (Qalqalah) */
+tajweed.qlq { 
+    color: #0ea5e9; 
+    font-weight: bold; 
+} 
+
+/* 🟦 Bleu foncé : L'emphase (Tafkhim) et lettres très prononcées */
+tajweed.tafkheem, tajweed.idgh_mus { 
+    color: #1e4ac3; 
+    font-weight: bold; 
+}
+
+/* --- L'INTERRUPTEUR TAJWID (TOGGLE SWITCH) --- */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+    margin-bottom: 0;
+}
+
+/* On cache la case à cocher par défaut */
+.switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Le fond de l'interrupteur (Gris par défaut) */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #cbd5e1;
+    transition: .4s;
+}
+
+/* Le petit rond blanc qui glisse */
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Quand on clique (Actif) : Le fond devient VERT ! */
+input:checked + .slider {
+    background-color: #16a34a; /* Vert "Validé" */
+}
+
+/* Le glissement du rond vers la droite */
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+/* Arrondir les bords de l'interrupteur */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Si on choisit Warsh (Désactivé) */
+input:disabled + .slider {
+    background-color: #f1f5f9;
+    cursor: not-allowed;
+}
+
+/* --- VARIABLES DE COULEURS --- */
+:root {
+    --primary-color: #0f766e; 
+    --primary-hover: #115e59;
+    --primary-light: #f0fdfa; 
+    --bg-color: #f0f4f8; 
+    --text-arabic: #111827;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 30px 10px; 
+}
+
+/* --- EN-TÊTE & CONTENEUR --- */
+.app-header { text-align: center; margin-bottom: 25px; }
+.app-logo { width: 90px; height: 90px; margin-bottom: 10px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+h1 { font-size: 26px; color: var(--primary-color); }
+.app-subtitle { font-size: 14px; color: #64748b; }
+
+.app-container {
+    background: white;
+    padding: 35px 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    width: 100%;
+    max-width: 700px;
+}
+
+/* --- CONTRÔLES (ACCUEIL) --- */
+.controls-section {
+    background-color: var(--primary-light);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #cceee9;
+}
+.flex-col { display: flex; flex-direction: column; gap: 15px; }
+
+.control-group label {
+    display: block; font-size: 15px; font-weight: 600; color: #475569; margin-bottom: 8px;
+}
+
+.surah-select {
+    width: 100%; padding: 12px 10px; font-size: 16px; border-radius: 8px;
+    border: 1px solid #cbd5e1; cursor: pointer; font-family: inherit;
+}
+.reciter-controls { display: flex; gap: 10px; }
+.fav-btn { padding: 10px 15px; border-radius: 8px; border: 1px solid #cbd5e1; background-color: white; }
+
+/* BOUTON MÉMORISER */
+.start-btn {
+    width: 100%; margin-top: 10px; background-color: var(--primary-color); color: white;
+    font-size: 18px; font-weight: 600; padding: 15px; border: none; border-radius: 12px;
+    cursor: pointer; box-shadow: 0 4px 10px rgba(15, 118, 110, 0.3); transition: all 0.2s;
+}
+.start-btn:hover { background-color: var(--primary-hover); transform: translateY(-2px); }
+
+/* SIGNATURE FOOTER */
+.app-footer { margin-top: 25px; font-size: 14px; color: #94a3b8; text-align: center; }
+.app-footer strong { color: var(--primary-color); }
+
+/* --- ÉCRAN QUIZ --- */
+.quiz-header { display: flex; align-items: center; margin-bottom: 15px; gap: 15px; }
+.back-btn {
+    background-color: #f1f5f9; border: 1px solid #cbd5e1; padding: 8px 15px;
+    border-radius: 8px; cursor: pointer; font-weight: 600; color: #475569; transition: 0.2s;
+}
+.back-btn:hover { background-color: #e2e8f0; }
+.quiz-title { color: var(--primary-color); font-size: 20px; margin: 0; }
+
+.quran-page {
+    background-color: #fdfbf7; border: 1px solid #e0dcd3; min-height: 120px;
+    padding: 25px; margin-bottom: 25px; border-radius: 12px; font-size: 30px; 
+    line-height: 2.2; color: var(--text-arabic); font-family: 'Segoe UI', Arial, sans-serif; 
+    text-align: justify; text-align-last: center; 
+}
+
+.options-container { display: flex; flex-direction: column; gap: 12px; }
+button.option-btn {
+    background-color: white; border: 2px solid #e2e8f0; color: var(--text-arabic);
+    padding: 18px 20px; font-size: 24px; border-radius: 12px; cursor: pointer;
+    transition: all 0.2s; font-family: 'Segoe UI', Arial, sans-serif; min-height: 60px; line-height: 1.5;
+}
+button.option-btn:hover { border-color: var(--primary-color); background-color: var(--primary-light); }
+#instruction, #feedback-message { font-size: 18px; font-weight: 600; color: #475569; margin-bottom: 20px; }
+
+@media (max-width: 600px) {
+    .app-container { padding: 20px; }
+    .quran-page { font-size: 24px; padding: 15px; }
+    button.option-btn { font-size: 20px; }
+}
+
+/* --- L'INTERRUPTEUR TAJWID (TOGGLE SWITCH) --- */
+.switch { position: relative; display: inline-block; width: 50px; height: 26px; margin-bottom: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+input:checked + .slider { background-color: #16a34a; }
+input:checked + .slider:before { transform: translateX(24px); }
+.slider.round { border-radius: 34px; }
+.slider.round:before { border-radius: 50%; }
+input:disabled + .slider { background-color: #f1f5f9; cursor: not-allowed; }
+
+/* --- COULEURS DU TAJWID (Standard Dar Al-Maarifa) --- */
+tajweed.ham_wasl, tajweed.slnt, tajweed.laam_shamsiyah { color: #a1a1aa; } 
+tajweed.madda_necessary, tajweed.madda_obligatory { color: #dc2626; }
+tajweed.madda_permissible { color: #db2777; }
+tajweed.madda_normal { color: #f97316; } 
+tajweed.ghn, tajweed.ikhf, tajweed.ikhf_shfw, tajweed.idgh_ghn, tajweed.idgh_w_ghn, tajweed.iqlb { color: #16a34a; } 
+tajweed.qlq { color: #0ea5e9; font-weight: bold; } 
+tajweed.tafkheem, tajweed.idgh_mus { color: #1d4ed8; font-weight: bold; }
+
+/* --- [NOUVEAU] BARRE DE PROGRESSION --- */
+.progress-wrapper {
+    margin-bottom: 20px;
+}
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+.progress-container {
+    width: 100%;
+    height: 10px;
+    background-color: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: var(--primary-color);
+    transition: width 0.4s ease-in-out; /* Animation fluide de remplissage */
+}
+
+/* --- VARIABLES DE COULEURS (THÈME CLAIR PAR DÉFAUT) --- */
+:root {
+    --primary-color: #0f766e; 
+    --primary-hover: #115e59;
+    --bg-page: #f0f4f8; 
+    --bg-container: #ffffff;
+    --bg-controls: #f0fdfa;
+    --border-color: #cbd5e1;
+    --text-main: #1f2937;
+    --text-muted: #64748b;
+    --text-arabic: #111827;
+    --quran-bg: #fdfbf7;
+    --quran-border: #e0dcd3;
+    --btn-bg: #ffffff;
+    --btn-hover: #f0fdfa;
+    --exam-bg: #fffbeb;
+    --exam-border: #fde68a;
+    --fav-active-bg: #fff9e6;
+    --fav-active-border: #f1c40f;
+    --fav-active-text: #b45309;
+}
+
+/* --- VARIABLES DE COULEURS (THÈME SOMBRE) --- */
+[data-theme="dark"] {
+    --primary-color: #2dd4bf; /* Vert plus clair pour ressortir sur noir */
+    --primary-hover: #14b8a6;
+    --bg-page: #0f172a; /* Bleu très foncé/Noir */
+    --bg-container: #1e293b;
+    --bg-controls: #334155;
+    --border-color: #475569;
+    --text-main: #f8fafc;
+    --text-muted: #cbd5e1;
+    --text-arabic: #f1f5f9;
+    --quran-bg: #0f172a;
+    --quran-border: #334155;
+    --btn-bg: #1e293b;
+    --btn-hover: #334155;
+    --exam-bg: #422006; /* Marron foncé */
+    --exam-border: #92400e;
+    --fav-active-bg: #422006;
+    --fav-active-border: #f59e0b;
+    --fav-active-text: #fde68a;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 30px 10px; 
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Bouton Thème */
+.theme-btn {
+    background: var(--bg-container); border: 2px solid var(--border-color);
+    border-radius: 50%; width: 45px; height: 45px; font-size: 20px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.app-container {
+    background: var(--bg-container);
+    padding: 35px 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    width: 100%; max-width: 700px;
+    transition: background-color 0.3s ease;
+}
+
+.app-header { text-align: center; margin-bottom: 25px; }
+.app-logo { width: 90px; height: 90px; margin-bottom: 10px; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+h1 { font-size: 26px; color: var(--primary-color); }
+.app-subtitle { font-size: 14px; color: var(--text-muted); }
+
+.controls-section {
+    background-color: var(--bg-controls); padding: 20px;
+    border-radius: 12px; border: 1px solid var(--border-color);
+}
+.flex-col { display: flex; flex-direction: column; gap: 15px; }
+
+.control-group label {
+    display: block; font-size: 15px; font-weight: 600; color: var(--text-main); margin-bottom: 8px;
+}
+
+.surah-select {
+    width: 100%; padding: 12px 10px; font-size: 16px; border-radius: 8px;
+    border: 1px solid var(--border-color); background-color: var(--bg-container);
+    color: var(--text-main); cursor: pointer; font-family: inherit;
+}
+.reciter-controls { display: flex; gap: 10px; }
+.fav-btn { padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border-color); background-color: var(--bg-container); color: var(--text-main); }
+
+/* Blocs Spécifiques */
+.tajweed-box { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; background: var(--bg-container); border-radius: 8px; border: 1px solid var(--border-color); color: var(--text-main); }
+.exam-box { display: flex; align-items: center; justify-content: space-between; padding: 12px 15px; background: var(--exam-bg); border-radius: 8px; border: 1px solid var(--exam-border); }
+.exam-panel { padding: 15px; background: var(--bg-container); border-radius: 8px; border: 2px dashed var(--exam-border); }
+
+/* BOUTON MÉMORISER */
+.start-btn {
+    width: 100%; margin-top: 10px; background-color: var(--primary-color); color: #fff;
+    font-size: 18px; font-weight: 600; padding: 15px; border: none; border-radius: 12px;
+    cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: all 0.2s;
+}
+.start-btn:hover { background-color: var(--primary-hover); transform: translateY(-2px); }
+
+.app-footer { margin-top: 25px; font-size: 14px; color: var(--text-muted); text-align: center; }
+.app-footer strong { color: var(--primary-color); }
+
+/* --- ÉCRAN QUIZ --- */
+.quiz-header { display: flex; align-items: center; margin-bottom: 15px; gap: 15px; }
+.back-btn {
+    background-color: var(--bg-controls); border: 1px solid var(--border-color); padding: 8px 15px;
+    border-radius: 8px; cursor: pointer; font-weight: 600; color: var(--text-main); transition: 0.2s;
+}
+.quiz-title { color: var(--primary-color); font-size: 20px; margin: 0; }
+
+.quran-page {
+    background-color: var(--quran-bg); border: 1px solid var(--quran-border); min-height: 120px;
+    padding: 25px; margin-bottom: 25px; border-radius: 12px; font-size: 30px; 
+    line-height: 2.2; color: var(--text-arabic); font-family: 'Segoe UI', Arial, sans-serif; 
+    text-align: justify; text-align-last: center; transition: 0.3s;
+}
+.exam-prompt {
+    background-color: var(--bg-controls); border: 1px solid var(--border-color); padding: 25px;
+    margin-bottom: 25px; border-radius: 12px; font-size: 30px; line-height: 2.2; color: var(--text-arabic); text-align: center;
+}
+
+.options-container { display: flex; flex-direction: column; gap: 12px; }
+button.option-btn {
+    background-color: var(--btn-bg); border: 2px solid var(--border-color); color: var(--text-arabic);
+    padding: 18px 20px; font-size: 24px; border-radius: 12px; cursor: pointer;
+    transition: all 0.2s; font-family: 'Segoe UI', Arial, sans-serif; min-height: 60px; line-height: 1.5;
+}
+button.option-btn:hover { border-color: var(--primary-color); background-color: var(--btn-hover); }
+.instruction-text { font-size: 18px; font-weight: 600; color: var(--text-main); margin-bottom: 20px; }
+
+/* Progress Bar */
+.progress-wrapper { margin-bottom: 20px; }
+.progress-info { display: flex; justify-content: space-between; font-size: 14px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
+.progress-container { width: 100%; height: 10px; background-color: var(--border-color); border-radius: 10px; overflow: hidden; }
+.progress-bar { height: 100%; width: 0%; background-color: var(--primary-color); transition: width 0.4s ease-in-out; }
+
+/* Interrupteurs (Switches) */
+.switch { position: relative; display: inline-block; width: 50px; height: 26px; margin-bottom: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--border-color); transition: .4s; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+input:checked + .slider { background-color: #16a34a; }
+input:checked + .exam-slider { background-color: #f59e0b; }
+input:checked + .slider:before { transform: translateX(24px); }
+.slider.round { border-radius: 34px; }
+.slider.round:before { border-radius: 50%; }
+
+/* --- COULEURS DU TAJWID --- */
+tajweed.ham_wasl, tajweed.slnt, tajweed.laam_shamsiyah { color: #a1a1aa; } 
+tajweed.madda_necessary, tajweed.madda_obligatory { color: #dc2626; }
+tajweed.madda_permissible { color: #db2777; }
+tajweed.madda_normal { color: #f97316; } 
+tajweed.ghn, tajweed.ikhf, tajweed.ikhf_shfw, tajweed.idgh_ghn, tajweed.idgh_w_ghn, tajweed.iqlb { color: #16a34a; } 
+tajweed.qlq { color: #0ea5e9; font-weight: bold; } 
+tajweed.tafkheem, tajweed.idgh_mus { color: #1d4ed8; font-weight: bold; }
+
+/* Correction du Tajwid pour le mode sombre (plus clair) */
+[data-theme="dark"] tajweed.tafkheem, [data-theme="dark"] tajweed.idgh_mus { color: #60a5fa; }
+[data-theme="dark"] tajweed.madda_necessary, [data-theme="dark"] tajweed.madda_obligatory { color: #ef4444; }
+[data-theme="dark"] tajweed.madda_permissible { color: #f472b6; }
+[data-theme="dark"] tajweed.madda_normal { color: #fb923c; } 
+[data-theme="dark"] tajweed.ghn, [data-theme="dark"] tajweed.ikhf, [data-theme="dark"] tajweed.idgh_ghn { color: #4ade80; }
+
+/* --- [NOUVEAU] TABLEAU DE BORD STATS --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+.stat-card {
+    background: var(--bg-controls);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+.stat-number {
+    font-size: 32px;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+.stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* --- BOUTON STREAK --- */
+.streak-btn {
+    background: var(--bg-container);
+    border: 2px solid #f97316;
+    border-radius: 10px;
+    padding: 0 12px;
+    height: 45px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+.streak-btn:hover { background: #fff7ed; }
+[data-theme="dark"] .streak-btn:hover { background: #431407; }

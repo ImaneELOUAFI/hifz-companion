@@ -1,49 +1,210 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" id="html-root">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hifz Companion - Révision Coran</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f766e">
+    <link rel="apple-touch-icon" href="image_0.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="app-container">
-        <header class="app-header">
-            <img src="logo_HC1.png" alt="Logo Hifz Companion" class="app-logo">
-            <h1>Hifz Companion</h1>
-            <p class="app-subtitle">Ton partenaire pour la mémorisation</p>
-        </header>
         
-        <div class="controls-section">
-            <div class="control-group">
-                <label for="surah-select">Sourate</label>
-                <select id="surah-select" class="surah-select">
-                    <option value="">Chargement...</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label for="reciter-select">Récitateur</label>
-                <div class="reciter-controls">
-                    <select id="reciter-select" class="surah-select">
-                        <option value="">Chargement...</option>
-                    </select>
-                    <button id="fav-btn" class="fav-btn" title="Gérer les favoris">⭐</button>
-                </div>
-            </div>
+        <div style="display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin-bottom: 20px;">
+            <button id="streak-info-toggle" class="streak-btn" title="Comprendre les séries">
+                <span id="header-streak" style="font-weight: 700; color: #f97316; font-size: 16px;">0 🔥</span>
+            </button>
+            <button id="theme-toggle" class="theme-btn" title="Activer le mode sombre">🌙</button>
+            <button id="stats-toggle" class="theme-btn" title="Tableau de bord">📊</button>
+            <select id="lang-select" style="padding: 10px; font-size: 15px; font-weight: 600; border-radius: 10px; border: 2px solid var(--primary-color); background-color: var(--bg-controls); color: var(--primary-color); cursor: pointer; outline: none; font-family: inherit;">
+                <option value="fr">🇫🇷 FR</option>
+                <option value="en">🇬🇧 EN</option>
+                <option value="ar">🇸🇦 AR</option>
+                <option value="es">🇪🇸 ES</option>
+                <option value="id">🇮🇩 ID</option>
+                <option value="ms">🇲🇾 MS</option>
+                <option value="ur">🇵🇰 UR</option>
+                <option value="fa">🇮🇷 FA</option>
+                <option value="tr">🇹🇷 TR</option>
+                <option value="bn">🇧🇩 BN</option>
+                <option value="pa">🇮🇳 PA</option>
+                <option value="jv">🇮🇩 JV</option>
+                <option value="ha">🇳🇬 HA</option>
+                <option value="sw">🇰🇪 SW</option>
+                <option value="ru">🇷🇺 RU</option>
+            </select>
         </div>
-        
-        <div id="quran-page" class="quran-page" dir="rtl">
+
+        <div id="home-screen">
+            <header class="app-header">
+                <img src="image_0.png" alt="Logo Hifz Companion" class="app-logo">
+                <h1>Hifz Companion</h1>
+                <p class="app-subtitle" data-i18n="subtitle">Ton partenaire pour la mémorisation</p>
+            </header>
+            
+            <div class="controls-section flex-col">
+                <div class="control-group">
+                    <label for="riwaya-select" data-i18n="riwayaLabel">Type de lecture (Riwaya)</label>
+                    <select id="riwaya-select" class="surah-select">
+                        <option value="hafs">Hafs/option>
+                        <option value="warsh">Warsh</option>
+                    </select>
+                </div>
+
+                <div class="control-group tajweed-box" id="tajweed-container">
+                    <span style="font-size: 14px; font-weight: 600;" data-i18n="tajweedLabel">Couleurs de Tajwid (Hafs)</span>
+                    <label class="switch">
+                        <input type="checkbox" id="tajweed-checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+
+                <div class="control-group exam-box">
+                    <span style="font-size: 14px; font-weight: 700; color: #b45309;" data-i18n="examModeLabel">Mode Examen 📝</span>
+                    <label class="switch">
+                        <input type="checkbox" id="exam-mode-checkbox">
+                        <span class="slider round exam-slider"></span>
+                    </label>
+                </div>
+
+                <div id="normal-mode-block" class="flex-col">
+                    <div class="control-group">
+                        <label for="surah-select" data-i18n="surahLabel">Sourate à réviser</label>
+                        <select id="surah-select" class="surah-select"><option value="">...</option></select>
+                    </div>
+                    <div class="control-group" style="display: flex; gap: 15px;">
+                        <div style="flex: 1;">
+                            <label for="verse-start" data-i18n="fromVerse">Du verset</label>
+                            <input type="number" id="verse-start" class="surah-select" min="1" value="1">
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="verse-end" data-i18n="toVerse">Au verset</label>
+                            <input type="number" id="verse-end" class="surah-select" min="1" value="1">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="exam-mode-block" class="flex-col exam-panel" style="display: none;">
+                    <div class="control-group" style="display: flex; gap: 15px; margin-bottom: 10px;">
+                        <div style="flex: 2;">
+                            <label for="exam-surah-start" data-i18n="examFromSurah">De la sourate</label>
+                            <select id="exam-surah-start" class="surah-select"></select>
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="exam-verse-start" data-i18n="fromVerse">Verset</label>
+                            <input type="number" id="exam-verse-start" class="surah-select" min="1" value="1">
+                        </div>
+                    </div>
+                    <div class="control-group" style="display: flex; gap: 15px; margin-bottom: 10px;">
+                        <div style="flex: 2;">
+                            <label for="exam-surah-end" data-i18n="examToSurah">À la sourate</label>
+                            <select id="exam-surah-end" class="surah-select"></select>
+                        </div>
+                        <div style="flex: 1;">
+                            <label for="exam-verse-end" data-i18n="toVerse">Verset</label>
+                            <input type="number" id="exam-verse-end" class="surah-select" min="1" value="1">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="exam-questions-count" data-i18n="numQuestions">Nombre de questions</label>
+                        <select id="exam-questions-count" class="surah-select">
+                            <option value="5">5 questions</option>
+                            <option value="10" selected>10 questions</option>
+                            <option value="15">15 questions</option>
+                            <option value="20">20 questions</option>
+                            <option value="50">50 questions (Grand Examen)</option>
+                        </select>
+                    </div>
+                    <div class="control-group" style="display: flex; align-items: center; gap: 10px; margin-top: 5px; background-color: var(--bg-controls); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);">
+                        <input type="checkbox" id="srs-checkbox" checked style="width: 18px; height: 18px; accent-color: var(--primary-color); cursor: pointer;">
+                        <label for="srs-checkbox" data-i18n="srsLabel" style="margin-bottom: 0; cursor: pointer; font-size: 14px; font-weight: 600;">Algorithme SRS (Cibler mes erreurs) 🧠</label>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="reciter-select" data-i18n="reciterLabel">Récitateur audio</label>
+                    <div class="reciter-controls">
+                        <select id="reciter-select" class="surah-select"><option value="">...</option></select>
+                        <button id="fav-btn" class="fav-btn" title="Gérer les favoris">⭐</button>
+                    </div>
+                </div>
+                
+                <button id="start-btn" class="start-btn" data-i18n="startBtn">Mémoriser 🚀</button>
             </div>
 
-        <div class="quiz-section">
-            <h2 id="instruction">Chargement des versets...</h2>
-            
-            <div id="options-container" class="options-container" dir="rtl">
-                </div>
-            
-            <p id="feedback-message"></p>
+            <footer class="app-footer" dir="rtl" style="font-family: 'Amiri', serif; font-size: 1.2em; color: var(--text-main); font-weight: bold; text-align: center;">
+                إِنَّآ أَنزَلْنَٰهُ قُرْءَٰنًا عَرَبِيًّۭا
+                <span style="color: var(--primary-color);"> لَّعَلَّكُمْ تَعْقِلُونَ</span>
+            </footer>
         </div>
+
+        <div id="stats-screen" style="display: none;">
+            <div class="quiz-header">
+                <button id="back-from-stats-btn" class="back-btn" data-i18n="backBtn">⬅ Retour</button>
+                <h2 class="quiz-title" data-i18n="statsTitle">Tableau de bord</h2>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div id="stat-streak" class="stat-number" style="color: #f97316;">0</div>
+                    <div class="stat-label" data-i18n="statStreak">Série (Jours)</div>
+                </div>
+                <div class="stat-card">
+                    <div id="stat-total" class="stat-number">0</div>
+                    <div class="stat-label" data-i18n="statTotalVerses">Versets révisés</div>
+                </div>
+                <div class="stat-card">
+                    <div id="stat-rate" class="stat-number">0%</div>
+                    <div class="stat-label" data-i18n="statSuccessRate">Taux de réussite</div>
+                </div>
+                <div class="stat-card">
+                    <div id="stat-sessions" class="stat-number">0</div>
+                    <div class="stat-label" data-i18n="statSessions">Sessions terminées</div>
+                </div>
+            </div>
+            <button id="reset-stats-btn" class="back-btn" style="width: 100%; margin-top: 25px; color: #ef4444; border-color: #ef4444;" data-i18n="resetStats">Réinitialiser mes statistiques</button>
+        </div>
+
+        <div id="streak-info-screen" style="display: none;">
+            <div class="quiz-header">
+                <button id="back-from-streak-btn" class="back-btn" data-i18n="backBtn">⬅ Retour</button>
+                <h2 class="quiz-title" data-i18n="streakInfoTitle">Le concept des Séries 🔥</h2>
+            </div>
+            <div class="controls-section" style="margin-top: 20px; line-height: 1.6; color: var(--text-main);">
+                <h3 data-i18n="streakWhatIsItTitle" style="color: #f97316; margin-bottom: 10px;">Qu'est-ce qu'une série ?</h3>
+                <p data-i18n="streakExplanation1" style="margin-bottom: 10px;">Une série (ou 'streak') représente le nombre de jours consécutifs pendant lesquels vous avez révisé au moins un verset.</p>
+                <p data-i18n="streakExplanation2" style="margin-bottom: 10px;">Si vous révisez tous les jours, votre flamme augmente. Mais attention ! Si vous passez une journée entière sans réviser, la flamme s'éteint et votre série retombe à zéro.</p>
+                <p data-i18n="streakMotivation" style="font-weight: bold; text-align: center; margin-top: 20px;">C'est un excellent moyen de rester motivé et de faire de la mémorisation du Coran une habitude quotidienne !</p>
+            </div>
+        </div>
+
+        <div id="quiz-screen" style="display: none;">
+            <div class="quiz-header">
+                <button id="back-btn" class="back-btn" data-i18n="backBtn">⬅ Retour</button>
+                <h2 id="quiz-title" class="quiz-title">Révision</h2>
+            </div>
+            <div class="progress-wrapper">
+                <div class="progress-info">
+                    <span id="progress-text">0 / 0</span>
+                    <span id="progress-percentage">0%</span>
+                </div>
+                <div class="progress-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+            </div>
+            <div id="quran-page" class="quran-page" dir="rtl"></div>
+            <div id="exam-prompt-box" class="exam-prompt" dir="rtl" style="display: none;"></div>
+            <div class="quiz-section">
+                <h2 id="instruction" data-i18n="loadingVerses" class="instruction-text" style="text-align: center;">Chargement des versets...</h2>
+                <button id="replay-audio-btn" class="back-btn" style="display: none; width: 100%; margin-bottom: 20px; padding: 12px; font-size: 16px; border: 2px solid var(--primary-color); color: var(--primary-color); background-color: transparent;" data-i18n="repeatContextBtn">🔊 Écouter le verset précédent</button>
+                <div id="options-container" class="options-container" dir="rtl"></div>
+                <p id="feedback-message" style="text-align: center; margin-top: 15px;"></p>
+            </div>
+        </div>
+
     </div>
 
     <script src="app.js"></script>
