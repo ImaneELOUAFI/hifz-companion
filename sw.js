@@ -1,5 +1,4 @@
-const CACHE_NAME = 'hifz-companion-v2'; // <--- Change v1 en v2 ici
-
+const CACHE_NAME = 'hifz-companion-v3';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -8,27 +7,19 @@ const ASSETS_TO_CACHE = [
     './image_0.png'
 ];
 
-// 1. Installation du Service Worker et mise en cache de l'interface
 self.addEventListener('install', (event) => {
     event.waitUntil(
-        caches.open(CACHE_NAME)
-            .then((cache) => {
-                console.log('Mise en cache des ressources UI réussie');
-                return cache.addAll(ASSETS_TO_CACHE);
-            })
+        caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
     );
     self.skipWaiting();
 });
 
-// 2. Nettoyage des anciens caches lors des mises à jour
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((cacheNames) => {
             return Promise.all(
-                cacheNames.map((cacheName) => {
-                    if (cacheName !== CACHE_NAME) {
-                        return caches.delete(cacheName);
-                    }
+                cacheNames.map((cache) => {
+                    if (cache !== CACHE_NAME) return caches.delete(cache);
                 })
             );
         })
@@ -36,18 +27,21 @@ self.addEventListener('activate', (event) => {
     self.clients.claim();
 });
 
-// 3. Interception des requêtes réseau (Fetch)
 self.addEventListener('fetch', (event) => {
-    if (event.request.url.includes('api.quran.com') || event.request.url.includes('everyayah.com')) {
-        event.respondWith(
-            fetch(event.request).catch(() => caches.match(event.request))
-        );
-        return;
-    }
+    // STRATÉGIE "NETWORK FIRST" : Toujours chercher la nouvelle version en ligne d'abord !
     event.respondWith(
-        caches.match(event.request)
+        fetch(event.request)
             .then((response) => {
-                return response || fetch(event.request);
+                // Si on a internet, on met à jour la mémoire locale au passage
+                const responseClone = response.clone();
+                caches.open(CACHE_NAME).then((cache) => {
+                    cache.put(event.request, responseClone);
+                });
+                return response;
+            })
+            .catch(() => {
+                // Si on est HORS-LIGNE (mode avion), on utilise la mémoire
+                return caches.match(event.request);
             })
     );
 });
