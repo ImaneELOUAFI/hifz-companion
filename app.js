@@ -1,3 +1,10 @@
+// ================= 🧨 DESTRUCTION DU CACHE (ANTI-BUG) =================
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+        for(let registration of registrations) { registration.unregister(); }
+    });
+}
+
 // ================= GESTION DU MODE SOMBRE =================
 const themeToggle = document.getElementById('theme-toggle');
 const currentTheme = localStorage.getItem('theme') || 'light';
@@ -42,7 +49,6 @@ function checkAndUpdateStreak() {
 function updateHeaderStreakDisplay() { document.getElementById('header-streak').innerText = userStats.currentStreak + ' 🔥'; }
 
 // ================= DICTIONNAIRE =================
-// [CORRECTION] Ajout de 'reviewTitle' pour toutes les langues !
 const translations = {
     fr: { reviewTitle: "Révision", subtitle: "Ton partenaire pour la mémorisation", riwayaLabel: "Type de lecture (Riwaya)", tajweedLabel: "Couleurs de Tajwid", examModeLabel: "Mode Examen 📝", examFromSurah: "De la sourate", examToSurah: "À la sourate", numQuestions: "Nombre de questions", optionsCountLabel: "Nombre de propositions", continueVerse: "Quel verset vient juste après celui-ci ?", surahLabel: "Sourate à réviser", fromVerse: "Du verset", toVerse: "Au verset", reciterLabel: "Récitateur audio", startBtn: "Mémoriser 🚀", backBtn: "⬅ Retour", loadingVerses: "Chargement des versets...", selectFirst: "Sélectionnez le premier verset :", selectNext: "Quel est le verset suivant ?", goodAnswer: "✅ Bonne réponse !", badAnswer: "❌ Mauvaise réponse, essayez encore !", congrats: "✨ Félicitations ! Vous avez terminé ! ✨", yourScore: "Votre pourcentage :", foundOnFirstTry: "verset(s) trouvé(s) du premier coup sur", restart: "Recommencer", favGroup: "⭐ Tes favoris", otherGroup: "Autres récitateurs (A-Z)", addFav: "➕ Ajouter favori", removeFav: "⭐ Retirer favori", repeatContextBtn: "🔊 Écouter le verset précédent", statsTitle: "Mon Profil & Statistiques", statTotalVerses: "Versets révisés", statSuccessRate: "Précision", statSessions: "Sessions terminées", resetStats: "Réinitialiser mes statistiques", statStreak: "Série (Jours)", streakInfoTitle: "Le concept des Séries 🔥", streakWhatIsItTitle: "Qu'est-ce qu'une série ?", streakExplanation1: "Une série (ou 'streak') représente le nombre de jours consécutifs pendant lesquels vous avez révisé au moins un verset.", streakExplanation2: "Si vous révisez tous les jours, votre flamme augmente. Mais attention ! Si vous passez une journée entière sans réviser, la flamme s'éteint et votre série retombe à zéro.", streakMotivation: "C'est un excellent moyen de rester motivé et de faire de la mémorisation du Coran une habitude quotidienne !", nextQuestionBtn: "Passer à une autre question ⏭️" },
     en: { reviewTitle: "Review", subtitle: "Your memorization partner", riwayaLabel: "Recitation style", tajweedLabel: "Tajweed Colors", examModeLabel: "Exam Mode 📝", examFromSurah: "From Surah", examToSurah: "To Surah", numQuestions: "Number of questions", optionsCountLabel: "Number of options", continueVerse: "Which verse comes right after this one?", surahLabel: "Surah to review", fromVerse: "From verse", toVerse: "To verse", reciterLabel: "Audio Reciter", startBtn: "Memorize 🚀", backBtn: "⬅ Back", loadingVerses: "Loading verses...", selectFirst: "Select the first verse:", selectNext: "What is the next verse?", goodAnswer: "✅ Correct answer!", badAnswer: "❌ Wrong answer, try again!", congrats: "✨ Congratulations! You completed it! ✨", yourScore: "Your percentage:", foundOnFirstTry: "verse(s) found on first try out of", restart: "Restart", favGroup: "⭐ Your favorites", otherGroup: "Other reciters (A-Z)", addFav: "➕ Add favorite", removeFav: "⭐ Remove favorite", repeatContextBtn: "🔊 Listen to previous verse", statsTitle: "My Profile & Stats", statTotalVerses: "Verses reviewed", statSuccessRate: "Accuracy", statSessions: "Sessions completed", resetStats: "Reset my statistics", statStreak: "Day Streak", streakInfoTitle: "The Streak Concept 🔥", streakWhatIsItTitle: "What is a streak?", streakExplanation1: "A streak represents the number of consecutive days you have reviewed at least one verse.", streakExplanation2: "If you review every day, your flame grows. But beware! If you miss a full day without reviewing, the flame goes out and your streak resets to zero.", streakMotivation: "It's a great way to stay motivated and make memorizing the Quran a daily habit!", nextQuestionBtn: "Move to another question ⏭️" },
@@ -53,7 +59,7 @@ const translations = {
     ur: { reviewTitle: "دہرائی", subtitle: "آپ کا حفظ کا ساتھی", riwayaLabel: "تلاوت کا انداز", tajweedLabel: "تجوید کے رنگ", examModeLabel: "امتحانی موڈ 📝", examFromSurah: "سورت سے", examToSurah: "سورت تک", numQuestions: "سوالات کی تعداد", optionsCountLabel: "اختیارات کی تعداد", continueVerse: "اس کے فوراً بعد کون سی آیت آتی ہے؟", surahLabel: "دہرانے کے لیے سورت", fromVerse: "آیت سے", toVerse: "آیت تک", reciterLabel: "آڈیو قاری", startBtn: "حفظ کریں 🚀", backBtn: "⬅ واپس", loadingVerses: "آیات لوڈ ہو رہی ہیں...", selectFirst: "پہلی آیت منتخب کریں:", selectNext: "اگلی آیت کون سی ہے؟", goodAnswer: "✅ درست جواب!", badAnswer: "❌ غلط جواب، دوبارہ کوشش کریں!", congrats: "✨ مبارک ہو! آپ نے مکمل کر لیا! ✨", yourScore: "آپ کا فیصد:", foundOnFirstTry: "پہلی کوشش میں ملنے والی آیات، کل میں سے", restart: "دوبارہ شروع کریں", favGroup: "⭐ آپ کے پسندیدہ", otherGroup: "دیگر قراء (A-Z)", addFav: "➕ پسندیدہ شامل کریں", removeFav: "⭐ پسندیدہ ہٹائیں", repeatContextBtn: "🔊 پچھلی آیت سنیں", statsTitle: "میری پروفائل اور شماریات", statTotalVerses: "دہرائی گئی آیات", statSuccessRate: "درستگی", statSessions: "مکمل سیشنز", resetStats: "میرے اعداد و شمار ری سیٹ کریں", statStreak: "سلسلہ (دن)", streakInfoTitle: "سلسلے کا تصور 🔥", streakWhatIsItTitle: "سلسلہ کیا ہے؟", streakExplanation1: "سلسلہ ان مسلسل دنوں کی تعداد کی نمائندگی کرتا ہے جن میں آپ نے کم از کم ایک آیت دہرائی ہو۔", streakExplanation2: "اگر آپ روزانہ دہراتے ہیں تو آپ کا شعلہ بڑھتا ہے۔ لیکن ہوشیار رہیں! اگر آپ ایک پورا دن دہرائے بغیر گزار دیتے ہیں، تو شعلہ بجھ جاتا ہے اور آپ کا سلسلہ صفر پر آجاتا ہے۔", streakMotivation: "حوصلہ افزائی رکھنے اور قرآن حفظ کرنے کو روزانہ کی عادت بنانے کا یہ ایک بہترین طریقہ ہے!", nextQuestionBtn: "دوسرے سوال پر جائیں ⏭️" },
     fa: { reviewTitle: "مرور", subtitle: "همراه حفظ شما", riwayaLabel: "سبک تلاوت", tajweedLabel: "رنگ‌های تجوید", examModeLabel: "حالت آزمون 📝", examFromSurah: "از سوره", examToSurah: "تا سوره", numQuestions: "تعداد سوالات", optionsCountLabel: "تعداد گزینه‌ها", continueVerse: "کدام آیه بلافاصله بعد از این می‌آید؟", surahLabel: "سوره برای مرور", fromVerse: "از آیه", toVerse: "تا آیه", reciterLabel: "قاری صوتی", startBtn: "حفظ کن 🚀", backBtn: "⬅ بازگشت", loadingVerses: "در حال بارگذاری آیات...", selectFirst: "آیه اول را انتخاب کنید:", selectNext: "آیه بعدی کدام است؟", goodAnswer: "✅ پاسخ صحیح!", badAnswer: "❌ پاسخ اشتباه، دوباره تلاش کنید!", congrats: "✨ تبریک! شما به پایان رساندید! ✨", yourScore: "درصد شما:", foundOnFirstTry: "آیه(های) پیدا شده در تلاش اول از", restart: "شروع مجدد", favGroup: "⭐ علاقه‌مندی‌های شما", otherGroup: "سایر قاریان (الف-ی)", addFav: "➕ افزودن به علاقه‌مندی‌ها", removeFav: "⭐ حذف از علاقه‌مندی‌ها", repeatContextBtn: "🔊 گوش دادن به آیه قبلی", statsTitle: "پروفایل و آمار من", statTotalVerses: "آیات مرور شده", statSuccessRate: "دقت", statSessions: "جلسات تکمیل شده", resetStats: "بازنشانی آمار من", statStreak: "زنجیره (روزها)", streakInfoTitle: "مفهوم زنجیره‌ها 🔥", streakWhatIsItTitle: "زنجیره چیست؟", streakExplanation1: "زنجیره نشان‌دهنده تعداد روزهای متوالی است که شما حداقل یک آیه را مرور کرده‌اید.", streakExplanation2: "اگر هر روز مرور کنید، شعله شما بزرگتر می‌شود. اما مراقب باشید! اگر یک روز کامل را بدون مرور بگذرانید، شعله خاموش می‌شود و زنجیره شما به صفر برمی‌گردد.", streakMotivation: "این یک راه عالی برای حفظ انگیزه و تبدیل حفظ قرآن به یک عادت روزانه است!", nextQuestionBtn: "رفتن به سوال دیگر ⏭️" },
     tr: { reviewTitle: "Tekrar", subtitle: "Ezber arkadaşınız", riwayaLabel: "Okuyuş stili", tajweedLabel: "Tecvid Renkleri", examModeLabel: "Sınav Modu 📝", examFromSurah: "Şu sureden", examToSurah: "Şu sureye", numQuestions: "Soru sayısı", optionsCountLabel: "Seçenek sayısı", continueVerse: "Bundan hemen sonra hangi ayet geliyor?", surahLabel: "Tekrar edilecek sure", fromVerse: "Şu ayetten", toVerse: "Şu ayete kadar", reciterLabel: "Sesli Okuyucu", startBtn: "Ezberle 🚀", backBtn: "⬅ Geri", loadingVerses: "Ayetler yükleniyor...", selectFirst: "İlk ayeti seçin:", selectNext: "Sonraki ayet hangisi?", goodAnswer: "✅ Doğru cevap!", badAnswer: "❌ Yanlış cevap, tekrar deneyin!", congrats: "✨ Tebrikler! Tamamladınız! ✨", yourScore: "Yüzdeniz:", foundOnFirstTry: "ilk denemede bulunan ayet sayısı", restart: "Yeniden başla", favGroup: "⭐ Favorileriniz", otherGroup: "Diğer okuyucular (A-Z)", addFav: "➕ Favoriye ekle", removeFav: "⭐ Favoriden çıkar", repeatContextBtn: "🔊 Önceki ayeti dinle", statsTitle: "Profilim ve İstatistikler", statTotalVerses: "Gözden geçirilen ayetler", statSuccessRate: "Doğruluk", statSessions: "Tamamlanan oturumlar", resetStats: "İstatistiklerimi sıfırla", statStreak: "Seri (Gün)", streakInfoTitle: "Seri Konsepti 🔥", streakWhatIsItTitle: "Seri nedir?", streakExplanation1: "Bir seri, en az bir ayeti gözden geçirdiğiniz ardışık günlerin sayısını temsil eder.", streakExplanation2: "Her gün tekrar yaparsanız, aleviniz büyür. Ancak dikkat! Tekrar yapmadan tam bir gün geçirirseniz alev söner ve seriniz sıfırlanır.", streakMotivation: "Motivasyonunuzu korumanın ve Kur'an ezberlemeyi günlük bir alışkanlık haline getirmenin harika bir yolu!", nextQuestionBtn: "Başka bir soruya geç ⏭️" },
-    bn: { reviewTitle: "রিভিশন", subtitle: "আপনার মুখস্থ করার সঙ্গী", riwayaLabel: "তেলাওয়াতের ধরন", tajweedLabel: "তাজউইদ রং", examModeLabel: "পরীক্ষা মোড 📝", examFromSurah: "সূরা থেকে", examToSurah: "সূরা পর্যন্ত", numQuestions: "প্রশ্নের সংখ্যা", optionsCountLabel: "বিকল্পের সংখ্যা", continueVerse: "এর ঠিক পরে কোন আয়াতটি আসে?", surahLabel: "রিভিশন করার সূরা", fromVerse: "আয়াত থেকে", toVerse: "আয়াত পর্যন্ত", reciterLabel: "অডিও কারী", startBtn: "মুখস্থ করুন 🚀", backBtn: "⬅ ফিরে যান", loadingVerses: "আয়াত লোড হচ্ছে...", selectFirst: "প্রথম আয়াতটি নির্বাচন করুন:", selectNext: "পরবর্তী আয়াত কোনটি?", goodAnswer: "✅ সঠিক উত্তর!", badAnswer: "❌ ভুল উত্তর, আবার চেষ্টা করুন!", congrats: "✨ অভিনন্দন! আপনি সম্পন্ন করেছেন! ✨", yourScore: "আপনার শতকরা হার:", foundOnFirstTry: "প্রথম চেষ্টায় পাওয়া আয়াত, মোট আয়াতের মধ্যে", restart: "পুনরায় শুরু করুন", favGroup: "⭐ আপনার প্রিয়", otherGroup: "অন্যান্য কারী (A-Z)", addFav: "➕ প্রিয়তে যোগ করুন", removeFav: "⭐ প্রিয় থেকে সরান", repeatContextBtn: "🔊 পূর্ববর্তী আয়াত শুনুন", statsTitle: "আমার প্রোফাইল ও পরিসংখ্যান", statTotalVerses: "রিভিশন করা আয়াত", statSuccessRate: "নির্ভুলতা", statSessions: "সেশন সম্পন্ন", resetStats: "আমার পরিসংখ্যান রিসেট করুন", statStreak: "ধারাবাহিকতা (দিন)", streakInfoTitle: "ধারাবাহিকতার ধারণা 🔥", streakWhatIsItTitle: "ধারাবাহিকতা কি?", streakExplanation1: "ধারাবাহিকতা হল টানা কত দিন আপনি অন্তত একটি আয়াত রিভিশন করেছেন তার সংখ্যা।", streakExplanation2: "আপনি যদি প্রতিদিন রিভিশন করেন, আপনার শিখা বৃদ্ধি পাবে। তবে সাবধান! আপনি যদি রিভিশন ছাড়া পুরো এক দিন পার করেন, তবে শিখা নিভে যায় এবং ধারাবাহিকতা শূন্য হয়ে যায়।", streakMotivation: "এটি অনুপ্রাণিত থাকার এবং কোরআন মুখস্থ করাকে দৈনন্দিন অভ্যাসে পরিণত করার একটি দুর্দান্ত উপায়!", nextQuestionBtn: "অন্য প্রশ্নে যান ⏭️" },
+    bn: { reviewTitle: "রিভিশন", subtitle: "আপনার মুখস্থ করার সঙ্গী", riwayaLabel: "তেলাওয়াতের ধরন", tajweedLabel: "তাজউইদ রং", examModeLabel: "পরীক্ষা মোড 📝", examFromSurah: "সূরা থেকে", examToSurah: "সূরা পর্যন্ত", numQuestions: "প্রশ্নের সংখ্যা", optionsCountLabel: "বিকল্পের সংখ্যা", continueVerse: "এর ঠিক পরে কোন আয়াতটি আসে?", surahLabel: "রিভিশন করার সূরা", fromVerse: "আয়াত থেকে", toVerse: "আয়াত পর্যন্ত", reciterLabel: "অডিও কারী", startBtn: "মুখস্থ করুন 🚀", backBtn: "⬅ ফিরে যান", loadingVerses: "আয়াত লোড হচ্ছে...", selectFirst: "প্রথম আয়াতটি নির্বাচন করুন:", selectNext: "পরবর্তী আয়াত কোনটি?", goodAnswer: "✅ সঠিক উত্তর!", badAnswer: "❌ ভুল উত্তর, আবার চেষ্টা করুন!", congrats: "✨ অভিনন্দন! আপনি সম্পন্ন করেছেন! ✨", yourScore: "আপনার শতকরা হার:", foundOnFirstTry: "প্রথম চেষ্টায় পাওয়া আয়াত, মোট আয়াতের মধ্যে", restart: "পুনরায় শুরু করুন", favGroup: "⭐ আপনার প্রিয়", otherGroup: "অন্যান্য কারী (A-Z)", addFav: "➕ প্রিয়তে যোগ করুন", removeFav: "⭐ প্রিয় থেকে সরান", repeatContextBtn: "🔊 পূর্ববর্তী আয়াত শুনুন", statsTitle: "আমার প্রোফাইল ও পরিসংখ্যান", statTotalVerses: "রিভিশন করা আয়াত", statSuccessRate: "নির্ভুলতা", statSessions: "সেশন সম্পন্ন", resetStats: "আমার পরিসংখ্যান রিসেট করুন", statStreak: "ধারাবাহিকতা (দিন)", streakInfoTitle: "ধারাবাহিকতার ধারণা 🔥", streakWhatIsItTitle: "ধারাবাহিকতা কি?", streakExplanation1: "ধারাবাহিকতা হল টানা কত দিন আপনি অন্তত একটি আয়াত রিভিশন করেছেন তার সংখ্যা।", streakExplanation2: "আপনি যদি প্রতিদিন রিভিশন করেন, আপনার শিখা বৃদ্ধি পাবে। তবে সাবধান! আপনি যদি রিভিশন ছাড়া পুরো এক দিন পার করেন, তবে শিখা নিভে যায় এবং ধারাবাহিকতা শূন্য হয়ে যায়।", streakMotivation: "এটি অনুপ্রাণিত থাকার এবং কোরআন মুখস্থ করাকে দৈনন্দিন অভ্যাসে পরিণত করার একটি দুর্দান্ত উপায়!", nextQuestionBtn: "অন্য প্রশ্নে যান ⏭️" },
     pa: { reviewTitle: "ਦੁਹਰਾਈ", subtitle: "ਤੁਹਾਡਾ ਹਿਫਜ਼ ਸਾਥੀ", riwayaLabel: "ਤਿਲਾਵਤ ਦਾ ਅੰਦਾਜ਼", tajweedLabel: "ਤਜਵੀਦ ਦੇ ਰੰਗ", examModeLabel: "ਪ੍ਰੀਖਿਆ ਮੋਡ 📝", examFromSurah: "ਸੂਰਤ ਤੋਂ", examToSurah: "ਸੂਰਤ ਤੱਕ", numQuestions: "ਸਵਾਲਾਂ ਦੀ ਗਿਣਤੀ", optionsCountLabel: "ਵਿਕਲਪਾਂ ਦੀ ਗਿਣਤੀ", continueVerse: "ਇਸ ਤੋਂ ਠੀਕ ਬਾਅਦ ਕਿਹੜੀ ਆਇਤ ਆਉਂਦੀ ਹੈ?", surahLabel: "ਦੁਹਰਾਉਣ ਲਈ ਸੂਰਤ", fromVerse: "ਆਇਤ ਤੋਂ", toVerse: "ਆਇਤ ਤੱਕ", reciterLabel: "ਆਡੀਓ ਕਾਰੀ", startBtn: "ਯਾਦ ਕਰੋ 🚀", backBtn: "⬅ ਵਾਪਸ", loadingVerses: "ਆਇਤਾਂ ਲੋਡ ਹੋ ਰਹੀਆਂ ਹਨ...", selectFirst: "ਪਹਿਲੀ ਆਇਤ ਚੁਣੋ:", selectNext: "ਅਗਲੀ ਆਇਤ ਕਿਹੜੀ ਹੈ?", goodAnswer: "✅ ਸਹੀ ਜਵਾਬ!", badAnswer: "❌ ਗਲਤ ਜਵਾਬ, ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ!", congrats: "✨ ਵਧਾਈਆਂ! ਤੁਸੀਂ ਪੂਰਾ ਕਰ ਲਿਆ! ✨", yourScore: "ਤੁਹਾਡੀ ਪ੍ਰਤੀਸ਼ਤਤਾ:", foundOnFirstTry: "ਪਹਿਲੀ ਕੋਸ਼ਿਸ਼ ਵਿੱਚ ਮਿਲੀਆਂ ਆਇਤਾਂ", restart: "ਮੁੜ ਚਾਲੂ ਕਰੋ", favGroup: "⭐ ਤੁਹਾਡੇ ਪਸੰਦੀਦਾ", otherGroup: "ਹੋਰ ਕਾਰੀ (A-Z)", addFav: "➕ ਪਸੰਦੀਦਾ ਸ਼ਾਮਲ ਕਰੋ", removeFav: "⭐ ਪਸੰਦੀਦਾ ਹਟਾਓ", repeatContextBtn: "🔊 ਪਿਛਲੀ ਆਇਤ ਸੁਣੋ", statsTitle: "ਮੇਰਾ ਪ੍ਰੋਫਾਈਲ ਅਤੇ ਅੰਕੜੇ", statTotalVerses: "ਦੁਹਰਾਈਆਂ ਆਇਤਾਂ", statSuccessRate: "ਦਰੁਸਤਗੀ", statSessions: "ਸੈਸ਼ਨ ਪੂਰੇ ਹੋਏ", resetStats: "ਮੇਰੇ ਅੰਕੜੇ ਰੀਸੈਟ ਕਰੋ", statStreak: "ਲੜੀ (ਦਿਨ)", streakInfoTitle: "ਲੜੀ ਦਾ ਸੰਕਲਪ 🔥", streakWhatIsItTitle: "ਲੜੀ ਕੀ ਹੈ?", streakExplanation1: "ਲੜੀ ਉਹਨਾਂ ਲਗਾਤਾਰ ਦਿਨਾਂ ਦੀ ਗਿਣਤੀ ਨੂੰ ਦਰਸਾਉਂਦੀ ਹੈ ਜਿਨ੍ਹਾਂ ਵਿੱਚ ਤੁਸੀਂ ਘੱਟੋ-ਘੱਟ ਇੱਕ ਆਇਤ ਨੂੰ ਦੁਹਰਾਇਆ ਹੈ।", streakExplanation2: "ਜੇਕਰ ਤੁਸੀਂ ਹਰ ਰੋਜ਼ ਦੁਹਰਾਉਂਦੇ ਹੋ, ਤਾਂ ਤੁਹਾਡੀ ਲਾਟ ਵਧਦੀ ਹੈ। ਪਰ ਸਾਵਧਾਨ! ਜੇ ਤੁਸੀਂ ਬਿਨਾਂ ਦੁਹਰਾਏ ਇੱਕ ਪੂਰਾ ਦਿਨ ਗੁਆ ਦਿੰਦੇ ਹੋ, ਤਾਂ ਲਾਟ ਬੁੱਝ ਜਾਂਦੀ ਹੈ ਅਤੇ ਤੁਹਾਡੀ ਲੜੀ ਜ਼ੀਰੋ 'ਤੇ ਵਾਪਸ ਆ ਜਾਂਦੀ ਹੈ।", streakMotivation: "ਪ੍ਰੇਰਿਤ ਰਹਿਣ ਅਤੇ ਕੁਰਾਨ ਯਾਦ ਕਰਨ ਨੂੰ ਰੋਜ਼ਾਨਾ ਆਦਤ ਬਣਾਉਣ ਦਾ ਇਹ ਇੱਕ ਵਧੀਆ ਤਰੀਕਾ ਹੈ!", nextQuestionBtn: "ਕਿਸੇ ਹੋਰ ਸਵਾਲ 'ਤੇ ਜਾਓ ⏭️" },
     jv: { reviewTitle: "Muraja'ah", subtitle: "Kanca hafalan sampeyan", riwayaLabel: "Gaya wacan", tajweedLabel: "Werna Tajwid", examModeLabel: "Mode Ujian 📝", examFromSurah: "Saka Surah", examToSurah: "Tumeka Surah", numQuestions: "Cacahing pitakonan", optionsCountLabel: "Cacahing pilihan", continueVerse: "Ayat apa sing sawise iki?", surahLabel: "Surah sing arep diwaca", fromVerse: "Saka ayat", toVerse: "Tumeka ayat", reciterLabel: "Qari Audio", startBtn: "Apalna 🚀", backBtn: "⬅ Bali", loadingVerses: "Muat ayat...", selectFirst: "Pilih ayat pisanan:", selectNext: "Apa ayat sabanjure?", goodAnswer: "✅ Wangsulan bener!", badAnswer: "❌ Wangsulan salah, coba maneh!", congrats: "✨ Sugeng! Sampeyan wis rampung! ✨", yourScore: "Persentase sampeyan:", foundOnFirstTry: "ayat ditemokake ing upaya pisanan saka", restart: "Wiwiti maneh", favGroup: "⭐ Favorit sampeyan", otherGroup: "Qari liyane (A-Z)", addFav: "➕ Tambah favorit", removeFav: "⭐ Busak favorit", repeatContextBtn: "🔊 Rungokake ayat sadurunge", statsTitle: "Profil & Statistik Kula", statTotalVerses: "Ayat sing diwaca", statSuccessRate: "Akurasi", statSessions: "Sesi rampung", resetStats: "Reset statistik kula", statStreak: "Runtutan (Dina)", streakInfoTitle: "Konsep Runtutan 🔥", streakWhatIsItTitle: "Apa iku runtutan?", streakExplanation1: "Runtutan minangka jumlah dina berturut-turut sampeyan maca paling ora siji ayat.", streakExplanation2: "Yen sampeyan maca saben dina, geni sampeyan dadi luwih gedhe. Nanging ati-ati! Yen sampeyan kantun sedina muput tanpa maca, geni mati lan runtutan bali menyang nol.", streakMotivation: "Iki cara sing apik kanggo tetep motivasi lan nggawe hafalan Al-Qur'an dadi kebiasaan saben dina!", nextQuestionBtn: "Pindhah menyang pitakonan liyane ⏭️" },
     ha: { reviewTitle: "Bita", subtitle: "Abokin haddar ku", riwayaLabel: "Yanayin karatu", tajweedLabel: "Launukan Tajwidi", examModeLabel: "Tsarin Jarrabawa 📝", examFromSurah: "Daga Surah", examToSurah: "Zuwa Surah", numQuestions: "Yawan tambayoyi", optionsCountLabel: "Yawan zaɓuɓɓuka", continueVerse: "Wace aya ce take zuwa nan take bayan wannan?", surahLabel: "Surar da za a maimaita", fromVerse: "Daga aya", toVerse: "Zuwa aya", reciterLabel: "Makaranci (Audio)", startBtn: "Haddace 🚀", backBtn: "⬅ Koma", loadingVerses: "Ana loda ayoyi...", selectFirst: "Zabi aya ta farko:", selectNext: "Wace aya ce ta gaba?", goodAnswer: "✅ Amsa daidai!", badAnswer: "❌ Amsa kuskure, sake gwadawa!", congrats: "✨ Taya murna! Ka kammala! ✨", yourScore: "Kason ka:", foundOnFirstTry: "aya da aka samu a gwaji na farko daga cikin", restart: "Sake farawa", favGroup: "⭐ Wadanda kuka fi so", otherGroup: "Wasu makaranta (A-Z)", addFav: "➕ Ƙara a waɗanda aka fi so", removeFav: "⭐ Cire daga waɗanda aka fi so", repeatContextBtn: "🔊 Saurari aya ta baya", statsTitle: "Furofayil & Ƙididdiga ta", statTotalVerses: "Ayoyin da aka bita", statSuccessRate: "Daidaito", statSessions: "Zaman da aka kammala", resetStats: "Sake saita ƙididdiga ta", statStreak: "Jerin Ranakun (Streak)", streakInfoTitle: "Tsarin Jerin Ranakun 🔥", streakWhatIsItTitle: "Menene streak?", streakExplanation1: "Streak yana nuna adadin kwanakin da ka jere kana yin bita na aƙalla aya ɗaya.", streakExplanation2: "Idan kana bita kowace rana, wutar ka tana ƙaruwa. Amma ka kiyaye! Idan ka tsallake rana guda ba tare da bita ba, wutar za ta mutu kuma streak ɗinka zai koma sifili.", streakMotivation: "Hanya ce mai kyau don samun ƙwarin gwiwa da mayar da haddar Al-ƙur'ani al'ada ta yau da kullum!", nextQuestionBtn: "Matsa zuwa wata tambaya ⏭️" },
@@ -84,7 +90,6 @@ const quizScreen = document.getElementById('quiz-screen');
 const statsScreen = document.getElementById('stats-screen');
 const streakInfoScreen = document.getElementById('streak-info-screen'); 
 const quranPageDiv = document.getElementById('quran-page');
-const examPromptBox = document.getElementById('exam-prompt-box');
 const optionsContainer = document.getElementById('options-container');
 const instructionEl = document.getElementById('instruction');
 const feedbackEl = document.getElementById('feedback-message');
@@ -116,7 +121,7 @@ async function loadSurahNames() {
         const surahRes = await fetch(`https://api.quran.com/api/v4/chapters?language=${currentLang}`);
         const surahData = await surahRes.json();
         
-        if (!surahData.chapters) throw new Error("Erreur API Quran.com");
+        if (!surahData.chapters) throw new Error("Erreur de connexion avec Quran.com");
         
         surahSelect.innerHTML = "";
         surahData.chapters.forEach(chapter => {
@@ -207,7 +212,6 @@ async function initApp() {
                 loadExamVerses(reciterSelect.value);
             } else {
                 const surahName = surahSelect.options[surahSelect.selectedIndex].text.split('(')[0];
-                // [CORRECTION] Utilisation du mot traduit pour "Révision" au lieu du texte en dur
                 document.getElementById('quiz-title').innerText = `${t('reviewTitle')} : ${surahName}`;
                 loadSurahVerses(surahSelect.value, reciterSelect.value);
             }
@@ -296,7 +300,7 @@ async function loadSurahVerses(chapterId, reciterId) {
     optionsContainer.innerHTML = ""; feedbackEl.innerText = "";
     if (currentAudio) { currentAudio.pause(); currentAudio = null; }
     
-    quranPageDiv.style.display = 'block'; examPromptBox.style.display = 'none'; nextQuestionBtn.style.display = 'none'; quranPageDiv.innerHTML = "";
+    quranPageDiv.style.display = 'block'; nextQuestionBtn.style.display = 'none'; quranPageDiv.innerHTML = "";
     currentVerseIndex = 0; score = 0; madeMistake = false; allVerses = []; quizVerses = []; updateProgress(0, 1);
 
     try {
@@ -333,7 +337,7 @@ async function loadExamVerses(reciterId) {
     optionsContainer.innerHTML = ""; feedbackEl.innerText = "";
     if (currentAudio) { currentAudio.pause(); currentAudio = null; }
     
-    quranPageDiv.style.display = 'block'; examPromptBox.style.display = 'none'; quranPageDiv.innerHTML = "";
+    quranPageDiv.style.display = 'block'; quranPageDiv.innerHTML = "";
     currentVerseIndex = 0; score = 0; madeMistake = false; allVerses = []; examPrompts = []; currentExamQuestionIndex = 0; sessionTotalAnswered = 0;
     updateProgress(0, 1);
 
@@ -366,6 +370,7 @@ async function loadExamVerses(reciterId) {
         
         let selectedIndices = [];
         let pool = [];
+        
         for (let i = 0; i < allVerses.length - 1; i++) {
             let vKey = allVerses[i+1].verse_key; 
             let mistakes = userMistakes[vKey] || 0;
@@ -479,25 +484,31 @@ function generateQuestion() {
 
     let audioUrl = getAudioUrl(correctVerse, String(reciterSelect.value));
     
-    const targetOptionsCount = parseInt(optionsCountSelect.value) || 4;
+    const targetOptionsCount = parseInt(optionsCountSelect ? optionsCountSelect.value : 4) || 4;
     let options = [correctVerse];
     const firstWord = (correctVerse.text_uthmani || '').split(' ')[0]; 
 
-    let similarVerses = allVerses.filter(v => v && v.id !== correctVerse.id && v.text_uthmani && v.text_uthmani.startsWith(firstWord));
-    similarVerses.sort(() => Math.random() - 0.5);
-    for (let verse of similarVerses) if (options.length < targetOptionsCount) options.push(verse);
-
-    if (options.length < targetOptionsCount) {
-        let lengthSimilarVerses = allVerses.filter(v => v && v.text_uthmani && !options.some(opt => opt.id === v.id) && Math.abs(v.text_uthmani.split(' ').length - (correctVerse.text_uthmani||'').split(' ').length) <= 2);
-        lengthSimilarVerses.sort(() => Math.random() - 0.5);
-        for (let verse of lengthSimilarVerses) if (options.length < targetOptionsCount) options.push(verse);
+    let availableDistractors = allVerses.filter(v => v && v.id !== correctVerse.id && v.text_uthmani);
+    
+    let similar1 = availableDistractors.filter(v => v.text_uthmani.startsWith(firstWord));
+    similar1.sort(() => Math.random() - 0.5);
+    for (let v of similar1) {
+        if (options.length < targetOptionsCount && !options.some(o => o.id === v.id)) options.push(v);
     }
 
-    const maxPossibleOptions = Math.min(targetOptionsCount, allVerses.length);
+    if (options.length < targetOptionsCount) {
+        let similar2 = availableDistractors.filter(v => Math.abs(v.text_uthmani.split(' ').length - (correctVerse.text_uthmani||'').split(' ').length) <= 2);
+        similar2.sort(() => Math.random() - 0.5);
+        for (let v of similar2) {
+            if (options.length < targetOptionsCount && !options.some(o => o.id === v.id)) options.push(v);
+        }
+    }
 
-    while (options.length < maxPossibleOptions) {
-        const randomIndex = Math.floor(Math.random() * allVerses.length);
-        if (allVerses[randomIndex] && !options.some(opt => opt.id === allVerses[randomIndex].id)) options.push(allVerses[randomIndex]);
+    if (options.length < targetOptionsCount) {
+        availableDistractors.sort(() => Math.random() - 0.5);
+        for (let v of availableDistractors) {
+            if (options.length < targetOptionsCount && !options.some(o => o.id === v.id)) options.push(v);
+        }
     }
     
     options.sort(() => Math.random() - 0.5); 
@@ -552,14 +563,6 @@ function checkAnswer(selectedId, correctId, correctText, audioUrl, verseKey) {
         }
         madeMistake = true;
     }
-}
-
-// ================= PWA =================
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .catch((error) => { console.log('Échec ServiceWorker: ', error); });
-    });
 }
 
 initApp();
