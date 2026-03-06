@@ -1,4 +1,5 @@
-const CACHE_NAME = 'hifz-companion-v1';
+const CACHE_NAME = 'hifz-companion-v2'; // <--- Change v1 en v2 ici
+
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -37,15 +38,12 @@ self.addEventListener('activate', (event) => {
 
 // 3. Interception des requêtes réseau (Fetch)
 self.addEventListener('fetch', (event) => {
-    // Si c'est l'API Quran ou de l'audio, on essaie le réseau en priorité (Network First)
     if (event.request.url.includes('api.quran.com') || event.request.url.includes('everyayah.com')) {
         event.respondWith(
             fetch(event.request).catch(() => caches.match(event.request))
         );
         return;
     }
-
-    // Pour l'interface (HTML, CSS, JS), on cherche dans le cache d'abord (Cache First pour la vitesse)
     event.respondWith(
         caches.match(event.request)
             .then((response) => {

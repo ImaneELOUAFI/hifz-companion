@@ -100,10 +100,31 @@ button.option-btn {
 button.option-btn:hover { border-color: var(--primary-color); background-color: var(--primary-light); }
 #instruction, #feedback-message { font-size: 18px; font-weight: 600; color: #475569; margin-bottom: 20px; }
 
+/* --- ADAPTATION POUR TÉLÉPHONE (RESPONSIVE DESIGN) --- */
 @media (max-width: 600px) {
-    .app-container { padding: 20px; }
-    .quran-page { font-size: 24px; padding: 15px; }
-    button.option-btn { font-size: 20px; }
+    body { padding: 15px 5px; }
+    .app-container { padding: 20px 15px; }
+    
+    /* On réduit considérablement la taille du texte arabe sur mobile */
+    .quran-page, .exam-prompt { 
+        font-size: 20px; /* Avant c'était 24px ou 30px */
+        padding: 15px; 
+        line-height: 2; /* On resserre un peu les lignes */
+        margin-bottom: 15px;
+    }
+    
+    /* On réduit aussi légèrement les boutons pour gagner de la place */
+    button.option-btn { 
+        font-size: 18px; 
+        padding: 12px 15px;
+        min-height: 50px;
+    }
+    
+    /* Le texte de l'instruction prend moins de place */
+    .instruction-text {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
 }
 
 /* --- [NOUVEAU] COULEURS DU TAJWID --- */

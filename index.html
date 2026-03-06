@@ -50,7 +50,7 @@
                 <div class="control-group">
                     <label for="riwaya-select" data-i18n="riwayaLabel">Type de lecture (Riwaya)</label>
                     <select id="riwaya-select" class="surah-select">
-                        <option value="hafs">Hafs</option>
+                        <option value="hafs">Hafs </option>
                         <option value="warsh">Warsh</option>
                     </select>
                 </div>
@@ -112,17 +112,22 @@
                     <div class="control-group">
                         <label for="exam-questions-count" data-i18n="numQuestions">Nombre de questions</label>
                         <select id="exam-questions-count" class="surah-select">
-                            <option value="5">5 questions</option>
-                            <option value="10" selected>10 questions</option>
-                            <option value="15">15 questions</option>
-                            <option value="20">20 questions</option>
-                            <option value="50">50 questions (Grand Examen)</option>
+                            <option value="5">5</option>
+                            <option value="10" selected>10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
                         </select>
                     </div>
-                    <div class="control-group" style="display: flex; align-items: center; gap: 10px; margin-top: 5px; background-color: var(--bg-controls); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);">
-                        <input type="checkbox" id="srs-checkbox" checked style="width: 18px; height: 18px; accent-color: var(--primary-color); cursor: pointer;">
-                        <label for="srs-checkbox" data-i18n="srsLabel" style="margin-bottom: 0; cursor: pointer; font-size: 14px; font-weight: 600;">Algorithme SRS (Cibler mes erreurs) 🧠</label>
                     </div>
+
+                <div class="control-group">
+                    <label for="options-count-select" data-i18n="optionsCountLabel">Nombre de propositions</label>
+                    <select id="options-count-select" class="surah-select">
+                        <option value="2">2</option>
+                        <option value="4" selected>4</option>
+                        <option value="6">6</option>
+                    </select>
                 </div>
 
                 <div class="control-group">
@@ -196,12 +201,16 @@
                 </div>
             </div>
             <div id="quran-page" class="quran-page" dir="rtl"></div>
-            <div id="exam-prompt-box" class="exam-prompt" dir="rtl" style="display: none;"></div>
+            
             <div class="quiz-section">
                 <h2 id="instruction" data-i18n="loadingVerses" class="instruction-text" style="text-align: center;">Chargement des versets...</h2>
+                <p id="feedback-message" style="text-align: center; margin-bottom: 15px; font-weight: bold; font-size: 18px; min-height: 27px;"></p>
+
                 <button id="replay-audio-btn" class="back-btn" style="display: none; width: 100%; margin-bottom: 20px; padding: 12px; font-size: 16px; border: 2px solid var(--primary-color); color: var(--primary-color); background-color: transparent;" data-i18n="repeatContextBtn">🔊 Écouter le verset précédent</button>
+                
+                <button id="next-question-btn" class="start-btn" style="display: none; width: 100%; margin-bottom: 20px; padding: 12px; font-size: 16px; background-color: #f59e0b; color: white; border: none; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);" data-i18n="nextQuestionBtn">Passer à une autre question ⏭️</button>
+
                 <div id="options-container" class="options-container" dir="rtl"></div>
-                <p id="feedback-message" style="text-align: center; margin-top: 15px;"></p>
             </div>
         </div>
 
